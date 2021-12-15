@@ -28,7 +28,7 @@ Prerequisites:
 ### Windows: 
 
 ```cmd
-git checkout https://github.com/dclamage/SudokuXMinLex.git
+git clone https://github.com/dclamage/SudokuXMinLex.git
 cd SudokuXMinLex
 build.bat
 ```
@@ -38,7 +38,7 @@ Copy `package\sudokux_minlex.pyd` to the same folder as your python project.
 ### Linux/OSX:
 
 ```sh
-git checkout https://github.com/dclamage/SudokuXMinLex.git
+git clone https://github.com/dclamage/SudokuXMinLex.git
 cd SudokuXMinLex
 ./build.sh
 ```
