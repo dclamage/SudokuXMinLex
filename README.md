@@ -47,7 +47,7 @@ Copy `package\sudokux_minlex.so` to the same folder as your python project.
 
 ## Usage
 
-See [test.py](test.py) for an example script.
+See [test.py](package/test.py) for an example script.
 
 Basics:
 
