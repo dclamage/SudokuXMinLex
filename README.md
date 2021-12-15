@@ -21,7 +21,7 @@ Sudoku-X symmetries:
 I have provided scripts for Windows, OSX, and Linux.
 
 Prerequisites:
- - Ensure you have Python 3.7+ installed.
+ - Ensure you have Python 3 installed.
  - [Install rust](https://doc.rust-lang.org/cargo/getting-started/installation.html) (`rustc` and `cargo`)
  - [Install git](https://www.atlassian.com/git/tutorials/install-git)
 
