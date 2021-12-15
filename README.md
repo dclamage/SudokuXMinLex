@@ -43,6 +43,9 @@ cd SudokuXMinLex
 ./build-linux.sh
 ```
 
+Copy `package\sudokux_minlex.so` to the same folder as your python project.
+
+
 ### MacOS:
 
 ```sh
