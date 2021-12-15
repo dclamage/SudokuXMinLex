@@ -35,13 +35,22 @@ build.bat
 
 Copy `package\sudokux_minlex.pyd` to the same folder as your python project.
 
-### Linux/OSX:
+### Linux:
 
 ```sh
 git clone https://github.com/dclamage/SudokuXMinLex.git
 cd SudokuXMinLex
-./build.sh
+./build-linux.sh
 ```
+
+### MacOS:
+
+```sh
+git clone https://github.com/dclamage/SudokuXMinLex.git
+cd SudokuXMinLex
+./build-osx.sh
+```
+
 
 Copy `package\sudokux_minlex.so` to the same folder as your python project.
 
