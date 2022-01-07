@@ -1,3 +1,6 @@
+pub mod board;
+
+use board::Board;
 use itertools::Itertools;
 use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
@@ -50,30 +53,59 @@ fn minlex(sudoku_str: &str) -> PyResult<String> {
                     order.swap(0, 1);
                 }
             }
-            
-            for swap_r46 in 0..2 {
+
+            for swap_rc46 in 0..2 {
                 let mut cur_sudoku = cur_sudoku.clone();
-                if swap_r46 == 1 {
+                if swap_rc46 == 1 {
                     swap_rows(&mut cur_sudoku, 3, 5);
+                    swap_cols(&mut cur_sudoku, 3, 5);
                 }
+                renumber(&mut cur_sudoku);
 
-                for swap_c46 in 0..2 {
-                    let mut cur_sudoku = cur_sudoku.clone();
-                    if swap_c46 == 1 {
-                        swap_cols(&mut cur_sudoku, 3, 5);
-                    }
-
-                    renumber(&mut cur_sudoku);
-                    let cur_result = to_string(&cur_sudoku);
-                    if best_result.is_empty() || cur_result < best_result {
-                        best_result = cur_result;
-                    }
+                let cur_result = to_string(&cur_sudoku);
+                if best_result.is_empty() || cur_result < best_result {
+                    best_result = cur_result;
                 }
             }
         }
     }
 
+    let best_result: String = best_result
+        .chars()
+        .map(|c| if c == '0' { '.' } else { c })
+        .collect();
     Ok(best_result)
+}
+
+#[pyfunction]
+fn solution_count(sudoku_str: &str, max_solutions: u64) -> u64 {
+    let board = Board::from_given_str(sudoku_str);
+    if board.is_none() {
+        0
+    } else {
+        board.unwrap().count_solutions(max_solutions)
+    }
+}
+
+#[pyfunction]
+fn solve(sudoku_str: &str, random: bool) -> String {
+    let board = Board::from_given_str(sudoku_str);
+    if board.is_none() {
+        String::new()
+    } else {
+        let board = board.unwrap();
+        let solved = if random {
+            board.solve_random()
+        } else {
+            board.solve()
+        };
+
+        if solved.is_none() {
+            String::new()
+        } else {
+            solved.unwrap().to_string()
+        }
+    }
 }
 
 fn parse_digit(c: char) -> u8 {
@@ -147,6 +179,8 @@ fn renumber(sudoku: &mut Vec<u8>) {
 #[pymodule]
 fn sudokux_minlex(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(minlex, m)?)?;
+    m.add_function(wrap_pyfunction!(solution_count, m)?)?;
+    m.add_function(wrap_pyfunction!(solve, m)?)?;
 
     Ok(())
 }

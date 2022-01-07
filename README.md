@@ -4,6 +4,8 @@
 
 This Rust library is intended to hook into Python 3 and allow for converting a Sudoku X puzzle into its minimal lexicographical form. This is useful for keeping a database of known puzzles in canonical form without repeating symmetrically identical ones.
 
+Solver functionality is also provided.
+
 The algorithm used is [described here](http://www.sudocue.net/minx.php):  
 1. All symmetrically identical versions of the puzzle are generated
 2. Puzzles are renumbered such that the smallest numbers appear as early as possible.
@@ -12,8 +14,7 @@ The algorithm used is [described here](http://www.sudocue.net/minx.php):
 
 Sudoku-X symmetries:   
  - Rotations/reflections (8)
- - Rows 4 & 6 can be swapped (2)
- - Cols 4 & 6 can be swapped (2)
+ - Rows 4 & 6 and Cols 4 & 6 can be swapped (2)
  - R19C19, R28C28, and R37C37 can be permuted (3! = 6).
 
 ## Building and Deploying
@@ -70,9 +71,17 @@ import sudokux_minlex
 # The sudoku string must be exactly 81 characters long. Any non-numerical digit is treated as a non-given.
 sudoku_string = '..............1....3....4...2.....................5......34....1.6....7....8.....'
 
-# The minlexed output will be a string with 0s for non-givens
+# Get the exact number of solutions to the puzzle. The second parameter is a maximum number of solutions to return, or 0 for no limit.
+count = sudokux_minlex.solution_count(sudoku_string, 0)
+
+# Get a solution to the puzzle. The second parameter is whether the solution should be random (different every time).
+# When non-random, the solution is not guaranteed to be any specific solution, but it will be consistent every time
+# it is called on the same input.
+solved = sudokux_minlex.solve(sudoku_string, False)
+
+# The minlexed output will be a string with '.' for non-givens
 minlexed = sudokux_minlex.minlex(sudoku_string)
 
-# minlexed now contains: '000000000000000010002000000000003400010000000560000000000700060008000000004000000'
+# minlexed now contains: '................1...2.........3..4...1.......56............7.6...8........4......'
 
 ```
