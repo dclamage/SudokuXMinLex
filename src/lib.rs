@@ -33,25 +33,18 @@ fn minlex(sudoku_str: &str) -> PyResult<String> {
         for order in &order_perms {
             let mut order = order.clone();
             let mut cur_sudoku = cur_sudoku.clone();
-            if order[0] == 0 {
-                swap_rowcol_bothsides(&mut cur_sudoku, 1, 2);
-            } else if order[0] == 1 {
-                swap_rowcol_bothsides(&mut cur_sudoku, 0, 2);
-            } else if order[0] == 2 {
+
+            if order[0] > order[1] {
                 swap_rowcol_bothsides(&mut cur_sudoku, 0, 1);
-            } else {
-                if order[0] > order[1] {
-                    swap_rowcol_bothsides(&mut cur_sudoku, 0, 1);
-                    order.swap(0, 1);
-                }
-                if order[1] > order[2] {
-                    swap_rowcol_bothsides(&mut cur_sudoku, 1, 2);
-                    order.swap(1, 2);
-                }
-                if order[0] > order[1] {
-                    swap_rowcol_bothsides(&mut cur_sudoku, 0, 1);
-                    order.swap(0, 1);
-                }
+                order.swap(0, 1);
+            }
+            if order[1] > order[2] {
+                swap_rowcol_bothsides(&mut cur_sudoku, 1, 2);
+                order.swap(1, 2);
+            }
+            if order[0] > order[1] {
+                swap_rowcol_bothsides(&mut cur_sudoku, 0, 1);
+                order.swap(0, 1);
             }
 
             for swap_rc46 in 0..2 {
